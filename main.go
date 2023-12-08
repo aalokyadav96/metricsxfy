@@ -7,15 +7,16 @@ import (
 
 func main() {
 	http.HandleFunc("/",Index)
-	
-	fs := http.FileServer(http.Dir("./uploads"))
-	http.Handle("/pix.gif", http.StripPrefix("/", fs))
-
 	http.ListenAndServe(":5647",nil)
 }
 
+
 func Index(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
+	if r.Method == "OPTIONS" {
+		fmt.Fprintf(w,"200")
+		return
+	}
 	fmt.Fprintf(w,"Online")
 }
 
